@@ -1,0 +1,82 @@
+Query :- 
+Write fuction for parsing the file using treesitter
+
+LLM RESPONSE :- 
+
+Certainly! Below is a function that parses a file using the Tree-sitter parser. This function is designed to be part of a larger class that handles code analysis and entity extraction. The function `parse_file` will attempt to parse the file using Tree-sitter if the file extension is supported and the Tree-sitter parser is available. If parsing fails or the file extension is not supported, it will return the raw content of the file.
+
+```python
+import os
+import logging
+from tree_sitter import Parser, Language
+
+# Assuming the following methods and attributes are defined in the class:
+# - self.extensions: A list of supported file extensions.
+# - get_language_from_extension: A method that maps file extensions to Tree-sitter language names.
+# - logger: A logging instance for logging messages.
+
+def parse_file(self, file_path: str):
+    """
+    Parse a single file using Tree-sitter if available; otherwise, return the raw content.
+
+    Args:
+        file_path (str): Path to the file.
+
+    Returns:
+        tuple: (root_node, file_content) if parsed successfully, or (None, content) otherwise.
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+    except Exception as e:
+        self.logger.error(f"Failed to read file {file_path}: {e}")
+        return None, None
+
+    ext = os.path.splitext(file_path)[1]
+    if ext in self.extensions and Parser is not None:
+        try:
+            parser = Parser()
+            language = get_language_from_extension(ext)
+            if language:
+                parser.set_language(Language.find_for_id(language.value))
+                tree = parser.parse(bytes(content, "utf8"))
+                return tree.root_node, content
+            else:
+                self.logger.warning(f"No language found for extension {ext}")
+                return None, content
+        except Exception as e:
+            self.logger.error(f"Tree-sitter parsing failed for {file_path}: {e}")
+            return None, content
+    else:
+        # Fallback: no parsing; simply return the content.
+        return None, content
+```
+
+### Explanation:
+1. **File Reading**:
+   - The function attempts to read the file content using `open` with UTF-8 encoding and error handling to ignore any decoding errors.
+   - If reading the file fails, it logs an error and returns `None, None`.
+
+2. **File Extension Check**:
+   - The file extension is extracted using `os.path.splitext`.
+   - The function checks if the extension is in the list of supported extensions (`self.extensions`) and if the Tree-sitter parser is available.
+
+3. **Tree-sitter Parsing**:
+   - If the file extension is supported and the parser is available, it initializes a `Parser` instance.
+   - It retrieves the appropriate language for the file extension using `get_language_from_extension`.
+   - The parser is set to the appropriate language using `parser.set_language`.
+   - The file content is parsed using `parser.parse`, and the root node of the parse tree is returned along with the file content.
+
+4. **Error Handling**:
+4. **Error Handling**:
+4. **Error Handling**:
+4. **Error Handling**:
+   - If any step in the parsing process fails, it logs an error and returns `None, content`.
+
+5. **Fallback**:
+   - If the file extension is not supported or the parser is not available, the function returns `None, content`.
+
+### Note:
+- Ensure that `get_language_from_extension` is a method that maps file extensions to Tree-sitter language names.
+- Ensure that `Language.find_for_id` is a method that retrieves the appropriate Tree-sitter language based on the language ID.
+- The `logger` should be a configured logging instance to handle logging messages.

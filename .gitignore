@@ -1,0 +1,5 @@
+.env*
+bitcoindev.git/*
+bitcoindev
+/__pycache__
+*/__pycache__
