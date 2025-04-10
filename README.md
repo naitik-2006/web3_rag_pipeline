@@ -107,7 +107,7 @@ project_root/
 
 ### Step 1: Clone & Setup
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/naitik-2006/web3_rag_pipeline
 cd project_root
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
