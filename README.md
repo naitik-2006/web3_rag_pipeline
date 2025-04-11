@@ -92,6 +92,7 @@ project_root/
 3. Answer generation using `code_reasoning_prompt`
   
 ### 4. Agent Flow (general_rag.py)
+![self-rag](https://github.com/naitik-2006/web3_rag_pipeline/blob/main/example/Screenshot%202025-04-11%20165802.png)
 1. Query Rewriting using `Groq` LLM and rewrite prompt
 2. Retrieval using:
    - Faiss Index
